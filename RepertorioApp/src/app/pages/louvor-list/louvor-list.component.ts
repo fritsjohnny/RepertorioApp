@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./louvor-list.component.scss'],
 })
 export class LouvorListComponent {
+  titulo: string = '';
   tema: string = '';
   subtema: string = '';
   louvoresFiltrados: any[] = [];
@@ -17,15 +18,17 @@ export class LouvorListComponent {
 
   constructor() {}
 
-  filtrar(): void {
-    const temaLower = this.tema.toLowerCase();
-    const subtemaLower = this.subtema.toLowerCase();
+  filtrar() {
+    const termoTitulo = this.titulo?.toLowerCase() || '';
+    const termoTema = this.tema?.toLowerCase() || '';
+    const termoSubtema = this.subtema?.toLowerCase() || '';
 
-    this.louvoresFiltrados = this.louvores.filter(
-      (l) =>
-        (!this.tema || l.tema.toLowerCase().includes(temaLower)) &&
-        (!this.subtema || l.subtemas.toLowerCase().includes(subtemaLower))
-    );
+    this.louvoresFiltrados = this.louvores.filter((l) => {
+      const tituloOk = l.titulo.toLowerCase().includes(termoTitulo);
+      const temaOk = l.tema.toLowerCase().includes(termoTema);
+      const subtemaOk = l.subtemas.toLowerCase().includes(termoSubtema);
+      return tituloOk && temaOk && subtemaOk;
+    });
   }
 
   abrirModalPorTitulo(titulo: string) {

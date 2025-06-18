@@ -5,14 +5,25 @@
 
   <input
     type="text"
+    placeholder="Nome da Canção (ex: Tremenda Graça)"
+    [(ngModel)]="titulo"
+    (keyup.enter)="filtrar()"
+  />
+
+  <input
+    type="text"
     placeholder="Tema Principal (ex: Adoração)"
     [(ngModel)]="tema"
+    (keyup.enter)="filtrar()"
   />
+
   <input
     type="text"
     placeholder="Subtema (ex: Confiança)"
     [(ngModel)]="subtema"
+    (keyup.enter)="filtrar()"
   />
+
   <button (click)="filtrar()">Buscar</button>
 
   <p *ngIf="louvoresFiltrados.length">
