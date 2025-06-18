@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="titulo">
+    <h2>🎵 Sistema de Busca de Louvores</h2>
+  </div>
+
+  <input
+    type="text"
+    placeholder="Tema Principal (ex: Adoração)"
+    [(ngModel)]="tema"
+  />
+  <input
+    type="text"
+    placeholder="Subtema (ex: Confiança)"
+    [(ngModel)]="subtema"
+  />
+  <button (click)="filtrar()">Buscar</button>
+
+  <p *ngIf="louvoresFiltrados.length">
+    {{ louvoresFiltrados.length }} louvor(es) encontrado(s)
+  </p>
+  <p *ngIf="!louvoresFiltrados.length">Nenhum louvor encontrado.</p>
+
+  <button *ngIf="louvoresFiltrados.length" (click)="compartilharTodos()">
+    Compartilhar todos os resultados no WhatsApp
+  </button>
+
+  <div
+    class="card"
+    *ngFor="let l of louvoresFiltrados"
+    (click)="abrirModalPorTitulo(l.titulo)"
+  >
+    <h3>{{ l.titulo }}</h3>
+    <p><strong>Tom:</strong> {{ l.tom }} | <strong>BPM:</strong> {{ l.bpm }}</p>
+    <p><strong>Tema:</strong> {{ l.tema }}</p>
+    <p><strong>Subtemas:</strong> {{ l.subtemas }}</p>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" *ngIf="louvorSelecionado" (click)="fecharModal($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="fecharModal($event)">&times;</span>
+    <h2 style="word-break: break-word; white-space: normal">
+      {{ louvorSelecionado.titulo }}
+    </h2>
+    <p><strong>Tom:</strong> {{ louvorSelecionado.tom }}</p>
+    <p><strong>BPM:</strong> {{ louvorSelecionado.bpm }}</p>
+    <p><strong>Tema:</strong> {{ louvorSelecionado.tema }}</p>
+    <p><strong>Subtemas:</strong> {{ louvorSelecionado.subtemas }}</p>
+    <button class="share-btn" (click)="compartilharWhatsApp(louvorSelecionado)">
+      Compartilhar no WhatsApp
+    </button>
+  </div>
+</div>
