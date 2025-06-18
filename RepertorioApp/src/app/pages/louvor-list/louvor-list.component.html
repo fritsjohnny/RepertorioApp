@@ -1,23 +1,54 @@
 <div class="container">
   <div class="titulo">
-    <h2>🎵 Sistema de Busca de Louvores</h2>
+    <h2>🎵RepertórioApp🎵</h2>
   </div>
+
+  <input
+    type="text"
+    placeholder="Nome da Canção (ex: Tremenda Graça)"
+    [(ngModel)]="titulo"
+    (keyup.enter)="filtrar()"
+  />
 
   <input
     type="text"
     placeholder="Tema Principal (ex: Adoração)"
     [(ngModel)]="tema"
+    (keyup.enter)="filtrar()"
   />
+
   <input
     type="text"
     placeholder="Subtema (ex: Confiança)"
     [(ngModel)]="subtema"
+    (keyup.enter)="filtrar()"
   />
+
   <button (click)="filtrar()">Buscar</button>
+  <button *ngIf="louvoresFiltrados.length" class="btn-clear" (click)="limpar()">
+    Limpar Filtros
+  </button>
+
+  <button (click)="gerarRepertorio()" style="display: none">
+    🎶 Gerar Repertório com IA (baseado na busca)
+  </button>
+
+  <div *ngIf="repertorioGerado">
+    <h3>Repertório Gerado:</h3>
+    <pre>{{ repertorioGerado }}</pre>
+
+    <button class="btn-clear" (click)="limparSugestao()">
+      Limpar sugestão
+    </button>
+  </div>
 
   <p *ngIf="louvoresFiltrados.length">
-    {{ louvoresFiltrados.length }} louvor(es) encontrado(s)
+    {{ louvoresFiltrados.length }} louvor{{
+      louvoresFiltrados.length === 1 ? "" : "es"
+    }}
+    encontrado{{ louvoresFiltrados.length === 1 ? "" : "s" }}
   </p>
+
   <p *ngIf="!louvoresFiltrados.length">Nenhum louvor encontrado.</p>
 
   <button *ngIf="louvoresFiltrados.length" (click)="compartilharTodos()">

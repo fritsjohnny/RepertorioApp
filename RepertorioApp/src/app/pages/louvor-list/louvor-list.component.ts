@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { OpenAIService } from '../../services/openai.service';
 
 @Component({
   selector: 'app-louvor-list',
@@ -10,22 +11,65 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./louvor-list.component.scss'],
 })
 export class LouvorListComponent {
+  titulo: string = '';
   tema: string = '';
   subtema: string = '';
   louvoresFiltrados: any[] = [];
   louvorSelecionado: any = null;
+  repertorioGerado: string = '';
 
-  constructor() {}
+  constructor(private openaiService: OpenAIService) {}
 
-  filtrar(): void {
-    const temaLower = this.tema.toLowerCase();
-    const subtemaLower = this.subtema.toLowerCase();
+  filtrar() {
+    const termoTitulo = this.titulo?.toLowerCase() || '';
+    const termoTema = this.tema?.toLowerCase() || '';
+    const termoSubtema = this.subtema?.toLowerCase() || '';
 
-    this.louvoresFiltrados = this.louvores.filter(
-      (l) =>
-        (!this.tema || l.tema.toLowerCase().includes(temaLower)) &&
-        (!this.subtema || l.subtemas.toLowerCase().includes(subtemaLower))
-    );
+    this.louvoresFiltrados = this.louvores.filter((l) => {
+      const tituloOk = l.titulo.toLowerCase().includes(termoTitulo);
+      const temaOk = l.tema.toLowerCase().includes(termoTema);
+      const subtemaOk = l.subtemas.toLowerCase().includes(termoSubtema);
+      return tituloOk && temaOk && subtemaOk;
+    });
+  }
+
+  limpar(): void {
+    this.titulo = '';
+    this.tema = '';
+    this.subtema = '';
+    this.louvoresFiltrados = [];
+  }
+
+  gerarRepertorio() {
+    this.openaiService
+      .generateRepertorioFake(this.tema, this.subtema)
+      .subscribe((resposta) => {
+        this.repertorioGerado = resposta;
+      });
+
+    // const partes: string[] = [];
+
+    // if (this.tema) {
+    //   partes.push(`Tema: ${this.tema}`);
+    // }
+    // if (this.subtema) {
+    //   partes.push(`Subtema: ${this.subtema}`);
+    // }
+
+    // const promptBase =
+    //   'Monte um repertório de louvores cristãos baseado nos seguintes critérios:';
+    // const prompt = partes.length
+    //   ? `${promptBase}\n${partes.join('\n')}`
+    //   : 'Monte um repertório cristão variado com foco em louvores contemporâneos.';
+
+    // this.openaiService.gerarRepertorio(prompt).subscribe((res: any) => {
+    //   const resposta = res.choices?.[0]?.message?.content || 'Nada retornado.';
+    //   this.repertorioGerado = resposta;
+    // });
+  }
+
+  limparSugestao() {
+    this.repertorioGerado = '';
   }
 
   abrirModalPorTitulo(titulo: string) {
