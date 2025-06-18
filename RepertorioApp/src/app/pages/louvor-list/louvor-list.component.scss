@@ -160,3 +160,20 @@ button {
     transform: translateY(0);
   }
 }
+
+.btn-clear {
+  width: 100%;
+  padding: 12px;
+  background-color: #cccccc;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #aaaaaa;
+  }
+}

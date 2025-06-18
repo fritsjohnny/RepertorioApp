@@ -31,6 +31,13 @@ export class LouvorListComponent {
     });
   }
 
+  limpar(): void {
+    this.titulo = '';
+    this.tema = '';
+    this.subtema = '';
+    this.louvoresFiltrados = [];
+  }
+
   abrirModalPorTitulo(titulo: string) {
     const louvorCompleto = this.louvores.find((l) => l.titulo === titulo);
     if (louvorCompleto) {

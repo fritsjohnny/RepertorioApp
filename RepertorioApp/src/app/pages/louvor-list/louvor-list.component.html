@@ -1,6 +1,6 @@
 <div class="container">
   <div class="titulo">
-    <h2>🎵 Sistema de Busca de Louvores</h2>
+    <h2>🎵RepertórioApp🎵</h2>
   </div>
 
   <input
@@ -25,10 +25,17 @@
   />
 
   <button (click)="filtrar()">Buscar</button>
+  <button *ngIf="louvoresFiltrados.length" class="btn-clear" (click)="limpar()">
+    Limpar Filtros
+  </button>
 
   <p *ngIf="louvoresFiltrados.length">
-    {{ louvoresFiltrados.length }} louvor(es) encontrado(s)
+    {{ louvoresFiltrados.length }} louvor{{
+      louvoresFiltrados.length === 1 ? "" : "es"
+    }}
+    encontrado{{ louvoresFiltrados.length === 1 ? "" : "s" }}
   </p>
+
   <p *ngIf="!louvoresFiltrados.length">Nenhum louvor encontrado.</p>
 
   <button *ngIf="louvoresFiltrados.length" (click)="compartilharTodos()">
