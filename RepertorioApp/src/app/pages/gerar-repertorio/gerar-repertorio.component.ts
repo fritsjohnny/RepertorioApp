@@ -29,7 +29,7 @@ export class GerarRepertorioComponent {
   tom = '';
   repertorio: LouvorItem[] = [];
   mensagemPreview = '';
-  dev: boolean = true; // Para testes locais
+  dev: boolean = false; // Para testes locais
 
   constructor(private snackbar: SnackbarService) {
     const repertorioSalvo = localStorage.getItem('repertorio');
