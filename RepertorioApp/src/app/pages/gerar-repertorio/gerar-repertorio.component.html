@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="form-group">
+    <input
+      type="text"
+      id="nomeCulto"
+      class="input"
+      [(ngModel)]="nomeCulto"
+      placeholder="Nome do Culto (Ex: Domingo)"
+    />
+  </div>
+
+  <div class="form-group">
+    <div class="radio-group">
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="tipo"
+          value="CELEBRAÇÃO"
+          [(ngModel)]="tipoSelecionado"
+        />
+        Celebração
+      </label>
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="tipo"
+          value="ADORAÇÃO"
+          [(ngModel)]="tipoSelecionado"
+        />
+        Adoração
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      type="text"
+      class="input"
+      [(ngModel)]="pessoa"
+      placeholder="Pessoa"
+    />
+    <input
+      type="text"
+      class="input"
+      [(ngModel)]="nomeMusica"
+      placeholder="Nome do Louvor"
+    />
+    <input
+      type="text"
+      class="input"
+      [(ngModel)]="cantor"
+      placeholder="Cantor ou Banda"
+    />
+    <div class="input-group">
+      <input
+        type="text"
+        class="input"
+        [(ngModel)]="tom"
+        placeholder="Tom (opcional)"
+      />
+      <button class="btn" (click)="adicionarLouvor()">Adicionar</button>
+    </div>
+  </div>
+
+  <div class="lista-louvores" *ngIf="repertorio.length > 0">
+    <h3>🎵 Louvores Adicionados</h3>
+    <ul>
+      <li *ngFor="let item of repertorio; let i = index">
+        {{ item.tipo }} - {{ item.pessoa }} - {{ item.nome }} - {{ item.cantor
+        }}<span *ngIf="item.tom"> - {{ item.tom }}</span>
+        <button (click)="removerItem(i)" class="btn-remover">❌</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="preview" *ngIf="repertorio.length > 0">
+    <strong>Prévia da Mensagem:</strong>
+    <markdown [data]="mensagemPreview"></markdown>
+    <button class="btn btn-purple" (click)="compartilharWhatsApp()">
+      Compartilhar via WhatsApp
+    </button>
+  </div>
+</div>

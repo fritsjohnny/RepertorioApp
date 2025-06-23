@@ -25,3 +25,21 @@ body {
   margin: 0;
   padding: 0;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.custom-snackbar {
+  background-color: var(--primary-dark, #1e88e5); // ou qualquer cor escura
+  color: white;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  text-align: center;
+}

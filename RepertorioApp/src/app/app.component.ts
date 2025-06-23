@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { LouvorListComponent } from './pages/louvor-list/louvor-list.component';
+import { MenuComponent } from './shared/menu/menu.component';
+import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
-  imports: [LouvorListComponent],
+  imports: [RouterOutlet, MenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
