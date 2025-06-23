@@ -31,36 +31,38 @@ export class GerarRepertorioComponent {
   mensagemPreview = '';
 
   constructor(private snackbar: SnackbarService) {
-    // this.repertorio = [
-    //   {
-    //     pessoa: 'Roney',
-    //     nome: 'Reina o Senhor',
-    //     cantor: 'Nívea Soares',
-    //     tom: 'G',
-    //     tipo: 'CELEBRAÇÃO',
-    //   },
-    //   {
-    //     pessoa: 'Malafaia',
-    //     nome: 'Tremenda Graça',
-    //     cantor: 'Aline Barros',
-    //     tom: 'A',
-    //     tipo: 'CELEBRAÇÃO',
-    //   },
-    //   {
-    //     pessoa: 'Santana',
-    //     nome: 'É Ele',
-    //     cantor: 'Drops',
-    //     tom: 'D',
-    //     tipo: 'ADORAÇÃO',
-    //   },
-    //   {
-    //     pessoa: 'Daniel',
-    //     nome: 'Santo Espírito',
-    //     cantor: 'Laura Souguellis',
-    //     tom: 'F',
-    //     tipo: 'ADORAÇÃO',
-    //   },
-    // ];
+    this.nomeCulto = 'Culto de Celebração';
+
+    this.repertorio = [
+      {
+        pessoa: 'Roney',
+        nome: 'Reina o Senhor',
+        cantor: 'Nívea Soares',
+        tom: 'G',
+        tipo: 'CELEBRAÇÃO',
+      },
+      {
+        pessoa: 'Malafaia',
+        nome: 'Tremenda Graça',
+        cantor: 'Aline Barros',
+        tom: 'A',
+        tipo: 'CELEBRAÇÃO',
+      },
+      {
+        pessoa: 'Santana',
+        nome: 'É Ele',
+        cantor: 'Drops',
+        tom: 'D',
+        tipo: 'ADORAÇÃO',
+      },
+      {
+        pessoa: 'Daniel',
+        nome: 'Santo Espírito',
+        cantor: 'Laura Souguellis',
+        tom: 'F',
+        tipo: 'ADORAÇÃO',
+      },
+    ];
 
     this.mensagemPreview = this.gerarMensagemPreview();
   }
@@ -97,6 +99,14 @@ export class GerarRepertorioComponent {
     this.mensagemPreview = this.gerarMensagemPreview();
   }
 
+  get repertorioCelebracao(): LouvorItem[] {
+    return this.repertorio.filter((r) => r.tipo === 'CELEBRAÇÃO');
+  }
+
+  get repertorioAdoracao(): LouvorItem[] {
+    return this.repertorio.filter((r) => r.tipo === 'ADORAÇÃO');
+  }
+
   removerItem(index: number) {
     const item = this.repertorio[index];
     const confirmado = confirm(
@@ -108,7 +118,7 @@ export class GerarRepertorioComponent {
     this.repertorio.splice(index, 1);
   }
 
-  gerarMensagem(): string {
+  gerarMensagemWhatsApp(): string {
     const celebracao = this.repertorio.filter((r) => r.tipo === 'CELEBRAÇÃO');
     const adoracao = this.repertorio.filter((r) => r.tipo === 'ADORAÇÃO');
 
@@ -153,7 +163,7 @@ export class GerarRepertorioComponent {
   }
 
   compartilharWhatsApp() {
-    const msg = encodeURIComponent(this.gerarMensagem());
+    const msg = encodeURIComponent(this.gerarMensagemWhatsApp());
     window.open(`https://wa.me/?text=${msg}`, '_blank');
   }
 }

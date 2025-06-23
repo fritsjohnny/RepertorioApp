@@ -6,6 +6,7 @@
   background: var(--card);
   color: var(--text);
   box-sizing: border-box;
+  font-size: 18px;
 }
 
 .container > *:not(:last-child) {
@@ -29,9 +30,10 @@ input::placeholder {
   color: #aaa;
 }
 
-button {
+.btn-adicionar {
   width: 100%;
   padding: 12px;
+  font-size: 18px;
   background-color: var(--button-bg);
   color: var(--button-text);
   border: none;
@@ -67,20 +69,13 @@ button {
 }
 
 .preview {
-  margin-top: 2rem;
   font-size: 0.95rem;
-}
-
-.mensagem-preview {
-  margin-top: 0.5rem;
-  color: #ccc;
 }
 
 .lista-louvores {
   margin-top: 1.5rem;
 
-  h3 {
-    margin-top: 1rem;
+  h4 {
     color: #bb86fc;
   }
 
@@ -90,7 +85,7 @@ button {
 
     li {
       background: #3a3a3a;
-      padding: 0.6rem;
+      padding: 0 0.6rem 0 0.6rem;
       border-radius: 6px;
       margin-bottom: 0.5rem;
       display: flex;

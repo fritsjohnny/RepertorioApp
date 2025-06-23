@@ -51,24 +51,74 @@
       [(ngModel)]="cantor"
       placeholder="Cantor (opcional)"
     />
-    <div class="input-group">
+    <div class="form-group">
       <input
         type="text"
         class="input"
         [(ngModel)]="tom"
         placeholder="Tom (opcional)"
       />
-      <button class="btn" (click)="adicionarLouvor()">Adicionar</button>
+      <button class="btn btn-adicionar" (click)="adicionarLouvor()">
+        Adicionar
+      </button>
     </div>
   </div>
 
-  <div class="lista-louvores" *ngIf="repertorio.length > 0">
-    <h3>🎵 Louvores Adicionados</h3>
+  <div class="d-flex flex-column lista-louvores" *ngIf="repertorio.length > 0">
+    <h4 class="text-center">🎵 Louvores Adicionados</h4>
+
+    <!-- CELEBRAÇÃO -->
+    <h4 class="text-center">CELEBRAÇÃO</h4>
     <ul>
-      <li *ngFor="let item of repertorio; let i = index">
-        {{ item.tipo }} - {{ item.pessoa }} - {{ item.nome }} - {{ item.cantor
-        }}<span *ngIf="item.tom"> - {{ item.tom }}</span>
-        <button (click)="removerItem(i)" class="btn-remover">❌</button>
+      <li
+        *ngFor="let item of repertorioCelebracao; let i = index"
+        class="louvor-item"
+      >
+        <div class="row w-100">
+          <div class="col d-flex align-items-start">
+            <span>
+              <ng-container *ngIf="item.pessoa">{{ item.pessoa }}</ng-container>
+              <ng-container *ngIf="item.nome"> - {{ item.nome }}</ng-container>
+              <ng-container *ngIf="item.cantor">
+                - {{ item.cantor }}</ng-container
+              >
+              <ng-container *ngIf="item.tom"> - {{ item.tom }}</ng-container>
+            </span>
+          </div>
+          <div class="col-1 text-end p-0 d-flex justify-content-end">
+            <button
+              (click)="removerItem(i)"
+              class="btn-remover align-self-start"
+            >
+              ❌
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- ADORAÇÃO -->
+    <h4 class="text-center">ADORAÇÃO</h4>
+    <ul>
+      <li
+        *ngFor="let item of repertorioAdoracao; let i = index"
+        class="louvor-item"
+      >
+        <div class="row w-100">
+          <div class="col d-flex align-items-start">
+            <span>
+              <ng-container *ngIf="item.pessoa">{{ item.pessoa }}</ng-container>
+              <ng-container *ngIf="item.nome"> - {{ item.nome }}</ng-container>
+              <ng-container *ngIf="item.cantor">
+                - {{ item.cantor }}</ng-container
+              >
+              <ng-container *ngIf="item.tom"> - {{ item.tom }}</ng-container>
+            </span>
+          </div>
+          <div class="col-1 text-end p-0 d-flex justify-content-end">
+            <button (click)="removerItem(i)" class="btn-remover">❌</button>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -76,8 +126,10 @@
   <div class="preview" *ngIf="repertorio.length > 0">
     <strong>Prévia da Mensagem:</strong>
     <markdown [data]="mensagemPreview"></markdown>
-    <button class="btn btn-purple" (click)="compartilharWhatsApp()">
-      Compartilhar via WhatsApp
-    </button>
+    <div class="text-center mt-3">
+      <button class="btn-whatsapp" (click)="compartilharWhatsApp()">
+        <i class="fab fa-whatsapp fa-lg"></i>
+      </button>
+    </div>
   </div>
 </div>
