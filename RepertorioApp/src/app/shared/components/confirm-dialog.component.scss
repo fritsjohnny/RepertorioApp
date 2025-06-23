@@ -1,0 +1,15 @@
+mat-dialog-content {
+  font-size: 15px;
+  margin: 10px 0;
+  color: inherit; // respeita tema claro/escuro
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  .btn {
+    min-width: 100px;
+  }
+}

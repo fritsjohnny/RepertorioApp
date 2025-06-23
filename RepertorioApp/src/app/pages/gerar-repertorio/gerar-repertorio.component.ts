@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../shared/services/snackbar';
 import { MarkdownModule } from 'ngx-markdown';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog.component';
 
 interface LouvorItem {
   pessoa: string;
@@ -29,10 +31,10 @@ export class GerarRepertorioComponent {
   tom = '';
   repertorio: LouvorItem[] = [];
   mensagemPreview = '';
-  dev = false; // Para testes locais
+  dev = true; // Para testes locais
   novoRepertorioDisponivel = false;
 
-  constructor(private snackbar: SnackbarService) {
+  constructor(private snackbar: SnackbarService, private dialog: MatDialog) {
     const salvo = localStorage.getItem('repertorio');
 
     if (salvo) {
@@ -126,15 +128,21 @@ export class GerarRepertorioComponent {
 
   removerItem(index: number) {
     const item = this.repertorio[index];
-    const confirmado = confirm(
-      `Tem certeza que deseja remover o louvor "${item.nome}" de ${item.tipo}?`
-    );
 
-    if (!confirmado) return;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Remover Louvor',
+        message: `Tem certeza que deseja remover o louvor de ${item.tipo} "${item.nome}"?`,
+      },
+    });
 
-    this.repertorio.splice(index, 1);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return;
 
-    this.salvarRepertorio();
+      this.repertorio.splice(index, 1);
+      this.salvarRepertorio();
+      this.mensagemPreview = this.gerarMensagemPreview();
+    });
   }
 
   gerarMensagemWhatsApp(): string {
@@ -232,19 +240,26 @@ export class GerarRepertorioComponent {
   }
 
   iniciarNovoRepertorio() {
-    const confirmado = confirm(
-      'Tem certeza que deseja iniciar um novo repertório? Isso apagará o atual.'
-    );
-    if (!confirmado) return;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Novo Repertório',
+        message:
+          'Tem certeza que deseja iniciar um novo repertório? Isso apagará o atual.',
+      },
+    });
 
-    this.repertorio = [];
-    this.nomeCulto = '';
-    this.pessoa = '';
-    this.nomeMusica = '';
-    this.cantor = '';
-    this.tom = '';
-    this.mensagemPreview = '';
-    localStorage.removeItem('repertorio');
-    this.novoRepertorioDisponivel = false;
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return;
+
+      this.repertorio = [];
+      this.nomeCulto = '';
+      this.pessoa = '';
+      this.nomeMusica = '';
+      this.cantor = '';
+      this.tom = '';
+      this.mensagemPreview = '';
+      localStorage.removeItem('repertorio');
+      this.novoRepertorioDisponivel = false;
+    });
   }
 }
