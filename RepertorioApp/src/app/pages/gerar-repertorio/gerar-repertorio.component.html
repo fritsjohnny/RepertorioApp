@@ -1,12 +1,13 @@
 <div class="container">
-  <div class="form-group">
+  <div class="form-group d-flex align-items-center gap-2">
     <input
       type="text"
       id="nomeCulto"
-      class="input"
+      class="input flex-grow-1"
       [(ngModel)]="nomeCulto"
       placeholder="Nome do Culto (Ex: Domingo)*"
     />
+    <button class="btn-calendar" (click)="adicionarDataCulto()">📅</button>
   </div>
 
   <div class="form-group">

@@ -29,40 +29,52 @@ export class GerarRepertorioComponent {
   tom = '';
   repertorio: LouvorItem[] = [];
   mensagemPreview = '';
+  dev: boolean = true; // Para testes locais
 
   constructor(private snackbar: SnackbarService) {
-    this.nomeCulto = 'Culto de Celebração';
+    const repertorioSalvo = localStorage.getItem('repertorio');
 
-    this.repertorio = [
-      {
-        pessoa: 'Roney',
-        nome: 'Reina o Senhor',
-        cantor: 'Nívea Soares',
-        tom: 'G',
-        tipo: 'CELEBRAÇÃO',
-      },
-      {
-        pessoa: 'Malafaia',
-        nome: 'Tremenda Graça',
-        cantor: 'Aline Barros',
-        tom: 'A',
-        tipo: 'CELEBRAÇÃO',
-      },
-      {
-        pessoa: 'Santana',
-        nome: 'É Ele',
-        cantor: 'Drops',
-        tom: 'D',
-        tipo: 'ADORAÇÃO',
-      },
-      {
-        pessoa: 'Daniel',
-        nome: 'Santo Espírito',
-        cantor: 'Laura Souguellis',
-        tom: 'F',
-        tipo: 'ADORAÇÃO',
-      },
-    ];
+    if (repertorioSalvo) {
+      try {
+        this.repertorio = JSON.parse(repertorioSalvo);
+      } catch {
+        this.repertorio = [];
+        localStorage.removeItem('repertorio');
+      }
+    } else if (this.dev) {
+      this.nomeCulto = 'Culto de Celebração';
+
+      this.repertorio = [
+        {
+          pessoa: 'Roney',
+          nome: 'Reina o Senhor',
+          cantor: 'Nívea Soares',
+          tom: 'G',
+          tipo: 'CELEBRAÇÃO',
+        },
+        {
+          pessoa: 'Malafaia',
+          nome: 'Tremenda Graça',
+          cantor: 'Aline Barros',
+          tom: 'A',
+          tipo: 'CELEBRAÇÃO',
+        },
+        {
+          pessoa: 'Santana',
+          nome: 'É Ele',
+          cantor: 'Drops',
+          tom: 'D',
+          tipo: 'ADORAÇÃO',
+        },
+        {
+          pessoa: 'Daniel',
+          nome: 'Santo Espírito',
+          cantor: 'Laura Souguellis',
+          tom: 'F',
+          tipo: 'ADORAÇÃO',
+        },
+      ];
+    }
 
     this.mensagemPreview = this.gerarMensagemPreview();
   }
@@ -97,6 +109,8 @@ export class GerarRepertorioComponent {
     this.tom = '';
 
     this.mensagemPreview = this.gerarMensagemPreview();
+
+    this.salvarRepertorio();
   }
 
   get repertorioCelebracao(): LouvorItem[] {
@@ -116,6 +130,8 @@ export class GerarRepertorioComponent {
     if (!confirmado) return;
 
     this.repertorio.splice(index, 1);
+
+    this.salvarRepertorio();
   }
 
   gerarMensagemWhatsApp(): string {
@@ -165,5 +181,50 @@ export class GerarRepertorioComponent {
   compartilharWhatsApp() {
     const msg = encodeURIComponent(this.gerarMensagemWhatsApp());
     window.open(`https://wa.me/?text=${msg}`, '_blank');
+  }
+
+  private salvarRepertorio(): void {
+    localStorage.setItem('repertorio', JSON.stringify(this.repertorio));
+  }
+
+  adicionarDataCulto() {
+    const diasSemana: { [key: string]: number } = {
+      domingo: 0,
+      segunda: 1,
+      terca: 2,
+      terça: 2,
+      quarta: 3,
+      quinta: 4,
+      sexta: 5,
+      sabado: 6,
+      sábado: 6,
+    };
+
+    const texto = this.nomeCulto.toLowerCase();
+    const hoje = new Date();
+    let diaAlvo = -1;
+
+    for (const chave in diasSemana) {
+      if (texto.includes(chave)) {
+        diaAlvo = diasSemana[chave];
+        break;
+      }
+    }
+
+    let data: Date;
+
+    if (diaAlvo >= 0) {
+      const hojeNum = hoje.getDay();
+      const diff = (diaAlvo - hojeNum + 7) % 7;
+      data = new Date(hoje);
+      data.setDate(hoje.getDate() + diff);
+    } else {
+      data = hoje;
+    }
+
+    const dataFormatada = data.toLocaleDateString('pt-BR');
+    if (!this.nomeCulto.includes(`(${dataFormatada})`)) {
+      this.nomeCulto = `${this.nomeCulto.trim()} (${dataFormatada})`;
+    }
   }
 }

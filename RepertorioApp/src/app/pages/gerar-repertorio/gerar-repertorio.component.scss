@@ -136,3 +136,18 @@ input::placeholder {
   width: 1.3rem; // Largura da bolinha
   height: 1.3rem; // Altura da bolinha
 }
+
+.btn-calendar {
+  background-color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: var(--primary);
+  }
+}
