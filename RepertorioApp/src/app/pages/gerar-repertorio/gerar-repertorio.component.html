@@ -1,4 +1,13 @@
 <div class="container">
+  <div *ngIf="novoRepertorioDisponivel" class="d-flex justify-content-end mb-2">
+    <button
+      class="btn btn-outline-warning btn-sm"
+      (click)="iniciarNovoRepertorio()"
+    >
+      🗑️ Iniciar Novo Repertório
+    </button>
+  </div>
+
   <div class="form-group d-flex align-items-center gap-2">
     <input
       type="text"

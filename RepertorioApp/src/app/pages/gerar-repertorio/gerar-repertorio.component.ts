@@ -29,14 +29,15 @@ export class GerarRepertorioComponent {
   tom = '';
   repertorio: LouvorItem[] = [];
   mensagemPreview = '';
-  dev: boolean = false; // Para testes locais
+  dev = false; // Para testes locais
+  novoRepertorioDisponivel = false;
 
   constructor(private snackbar: SnackbarService) {
-    const repertorioSalvo = localStorage.getItem('repertorio');
+    const salvo = localStorage.getItem('repertorio');
 
-    if (repertorioSalvo) {
+    if (salvo) {
       try {
-        this.repertorio = JSON.parse(repertorioSalvo);
+        this.repertorio = JSON.parse(salvo);
       } catch {
         this.repertorio = [];
         localStorage.removeItem('repertorio');
@@ -75,6 +76,8 @@ export class GerarRepertorioComponent {
         },
       ];
     }
+
+    this.novoRepertorioDisponivel = this.repertorio.length > 0;
 
     this.mensagemPreview = this.gerarMensagemPreview();
   }
@@ -226,5 +229,22 @@ export class GerarRepertorioComponent {
     if (!this.nomeCulto.includes(`(${dataFormatada})`)) {
       this.nomeCulto = `${this.nomeCulto.trim()} (${dataFormatada})`;
     }
+  }
+
+  iniciarNovoRepertorio() {
+    const confirmado = confirm(
+      'Tem certeza que deseja iniciar um novo repertório? Isso apagará o atual.'
+    );
+    if (!confirmado) return;
+
+    this.repertorio = [];
+    this.nomeCulto = '';
+    this.pessoa = '';
+    this.nomeMusica = '';
+    this.cantor = '';
+    this.tom = '';
+    this.mensagemPreview = '';
+    localStorage.removeItem('repertorio');
+    this.novoRepertorioDisponivel = false;
   }
 }
