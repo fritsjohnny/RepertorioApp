@@ -21,46 +21,46 @@ interface LouvorItem {
   styleUrls: ['./gerar-repertorio.component.scss'],
 })
 export class GerarRepertorioComponent {
-  nomeCulto = 'DOMINGO';
+  nomeCulto = '';
   tipoSelecionado: 'CELEBRAÇÃO' | 'ADORAÇÃO' = 'CELEBRAÇÃO';
-  pessoa = 'Johnny';
+  pessoa = '';
   cantor = '';
-  nomeMusica = 'Celebrai';
+  nomeMusica = '';
   tom = '';
   repertorio: LouvorItem[] = [];
   mensagemPreview = '';
 
   constructor(private snackbar: SnackbarService) {
-    this.repertorio = [
-      {
-        pessoa: 'Roney',
-        nome: 'Reina o Senhor',
-        cantor: 'Nívea Soares',
-        tom: 'G',
-        tipo: 'CELEBRAÇÃO',
-      },
-      {
-        pessoa: 'Malafaia',
-        nome: 'Tremenda Graça',
-        cantor: 'Aline Barros',
-        tom: 'A',
-        tipo: 'CELEBRAÇÃO',
-      },
-      {
-        pessoa: 'Santana',
-        nome: 'É Ele',
-        cantor: 'Drops',
-        tom: 'D',
-        tipo: 'ADORAÇÃO',
-      },
-      {
-        pessoa: 'Daniel',
-        nome: 'Santo Espírito',
-        cantor: 'Laura Souguellis',
-        tom: 'F',
-        tipo: 'ADORAÇÃO',
-      },
-    ];
+    // this.repertorio = [
+    //   {
+    //     pessoa: 'Roney',
+    //     nome: 'Reina o Senhor',
+    //     cantor: 'Nívea Soares',
+    //     tom: 'G',
+    //     tipo: 'CELEBRAÇÃO',
+    //   },
+    //   {
+    //     pessoa: 'Malafaia',
+    //     nome: 'Tremenda Graça',
+    //     cantor: 'Aline Barros',
+    //     tom: 'A',
+    //     tipo: 'CELEBRAÇÃO',
+    //   },
+    //   {
+    //     pessoa: 'Santana',
+    //     nome: 'É Ele',
+    //     cantor: 'Drops',
+    //     tom: 'D',
+    //     tipo: 'ADORAÇÃO',
+    //   },
+    //   {
+    //     pessoa: 'Daniel',
+    //     nome: 'Santo Espírito',
+    //     cantor: 'Laura Souguellis',
+    //     tom: 'F',
+    //     tipo: 'ADORAÇÃO',
+    //   },
+    // ];
 
     this.mensagemPreview = this.gerarMensagemPreview();
   }
@@ -93,6 +93,8 @@ export class GerarRepertorioComponent {
     this.nomeMusica = '';
     this.cantor = '';
     this.tom = '';
+
+    this.mensagemPreview = this.gerarMensagemPreview();
   }
 
   removerItem(index: number) {
