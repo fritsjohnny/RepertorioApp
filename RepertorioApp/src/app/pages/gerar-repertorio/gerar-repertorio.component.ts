@@ -96,17 +96,17 @@ export class GerarRepertorioComponent {
 
   adicionarLouvor() {
     if (!this.nomeCulto.trim()) {
-      this.snackbar.show('Informe o nome do culto.');
+      this.snackbar.show('Informe o campo Nome do culto.');
       return;
     }
 
     if (!this.pessoa.trim()) {
-      this.snackbar.show('Informe o nome do cantor(a).');
+      this.snackbar.show('Informe o campo Pessoa.');
       return;
     }
 
     if (!this.nomeMusica.trim()) {
-      this.snackbar.show('Informe o nome do louvor.');
+      this.snackbar.show('Informe o campo Nome do Louvor.');
       return;
     }
 
