@@ -131,9 +131,23 @@
   <div class="preview" *ngIf="repertorio.length > 0">
     <strong>Prévia da Mensagem:</strong>
     <markdown [data]="mensagemPreview"></markdown>
-    <div class="text-center mt-3">
-      <button class="btn-whatsapp" (click)="compartilharWhatsApp()">
+
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button
+        class="btn-whatsapp d-flex align-items-center justify-content-center"
+        (click)="compartilharWhatsApp()"
+        title="Compartilhar via WhatsApp"
+      >
         <i class="fab fa-whatsapp fa-lg"></i>
+      </button>
+
+      <button
+        class="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2"
+        (click)="copiarParaAreaDeTransferencia()"
+        title="Copiar para a área de transferência"
+      >
+        <fa-icon [icon]="faClipboard"></fa-icon>
+        Copiar
       </button>
     </div>
   </div>

@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../shared/services/snackbar';
 import { MarkdownModule } from 'ngx-markdown';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faClipboard } from '@fortawesome/free-solid-svg-icons';
 
 interface LouvorItem {
   pessoa: string;
@@ -18,11 +20,13 @@ interface LouvorItem {
 @Component({
   selector: 'app-gerar-repertorio',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSnackBarModule, MarkdownModule],
+  imports: [CommonModule, FormsModule, MatSnackBarModule, MarkdownModule, FontAwesomeModule],
   templateUrl: './gerar-repertorio.component.html',
   styleUrls: ['./gerar-repertorio.component.scss'],
 })
 export class GerarRepertorioComponent {
+  faClipboard = faClipboard;
+  
   nomeCulto = '';
   tipoSelecionado: 'CELEBRAÇÃO' | 'ADORAÇÃO' = 'CELEBRAÇÃO';
   pessoa = '';
@@ -260,5 +264,14 @@ export class GerarRepertorioComponent {
       localStorage.removeItem('repertorio');
       this.novoRepertorioDisponivel = false;
     });
+  }
+
+  copiarParaAreaDeTransferencia() {
+    const msg = this.gerarMensagemWhatsApp();
+    navigator.clipboard.writeText(msg).then(
+      () =>
+        this.snackbar.show('Mensagem copiada para a área de transferência!'),
+      () => this.snackbar.show('Erro ao copiar a mensagem.')
+    );
   }
 }
