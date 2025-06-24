@@ -20,13 +20,19 @@ interface LouvorItem {
 @Component({
   selector: 'app-gerar-repertorio',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSnackBarModule, MarkdownModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatSnackBarModule,
+    MarkdownModule,
+    FontAwesomeModule,
+  ],
   templateUrl: './gerar-repertorio.component.html',
   styleUrls: ['./gerar-repertorio.component.scss'],
 })
 export class GerarRepertorioComponent {
   faClipboard = faClipboard;
-  
+
   nomeCulto = '';
   tipoSelecionado: 'CELEBRAÇÃO' | 'ADORAÇÃO' = 'CELEBRAÇÃO';
   pessoa = '';
@@ -199,6 +205,7 @@ export class GerarRepertorioComponent {
 
   private salvarRepertorio(): void {
     localStorage.setItem('repertorio', JSON.stringify(this.repertorio));
+    this.novoRepertorioDisponivel = this.repertorio.length > 0;
   }
 
   adicionarDataCulto() {
