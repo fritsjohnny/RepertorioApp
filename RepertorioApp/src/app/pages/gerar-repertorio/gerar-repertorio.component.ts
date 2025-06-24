@@ -31,7 +31,7 @@ export class GerarRepertorioComponent {
   tom = '';
   repertorio: LouvorItem[] = [];
   mensagemPreview = '';
-  dev = true; // Para testes locais
+  dev = false; // Para testes locais
   novoRepertorioDisponivel = false;
 
   constructor(private snackbar: SnackbarService, private dialog: MatDialog) {
