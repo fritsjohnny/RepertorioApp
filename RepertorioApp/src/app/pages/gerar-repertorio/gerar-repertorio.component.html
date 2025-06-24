@@ -96,12 +96,7 @@
             </span>
           </div>
           <div class="col-1 text-end p-0 d-flex justify-content-end">
-            <button
-              (click)="removerItem(i)"
-              class="btn-remover align-self-start"
-            >
-              ❌
-            </button>
+            <button (click)="removerItem(item)" class="btn-remover">❌</button>
           </div>
         </div>
       </li>
@@ -126,7 +121,7 @@
             </span>
           </div>
           <div class="col-1 text-end p-0 d-flex justify-content-end">
-            <button (click)="removerItem(i)" class="btn-remover">❌</button>
+            <button (click)="removerItem(item)" class="btn-remover">❌</button>
           </div>
         </div>
       </li>

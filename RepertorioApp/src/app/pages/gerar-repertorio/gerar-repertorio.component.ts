@@ -126,9 +126,7 @@ export class GerarRepertorioComponent {
     return this.repertorio.filter((r) => r.tipo === 'ADORAÇÃO');
   }
 
-  removerItem(index: number) {
-    const item = this.repertorio[index];
-
+  removerItem(item: LouvorItem) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Remover Louvor',
@@ -139,7 +137,8 @@ export class GerarRepertorioComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
-      this.repertorio.splice(index, 1);
+      this.repertorio = this.repertorio.filter((r) => r !== item);
+
       this.salvarRepertorio();
       this.mensagemPreview = this.gerarMensagemPreview();
     });
