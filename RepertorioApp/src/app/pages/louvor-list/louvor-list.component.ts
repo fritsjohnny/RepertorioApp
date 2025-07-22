@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { OpenAIService } from '../../services/openai.service';
 
 @Component({
   selector: 'app-louvor-list',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './louvor-list.component.html',
-  styleUrls: ['./louvor-list.component.scss'],
+  styleUrls: ['./louvor-list.component.scss', ],
 })
 export class LouvorListComponent {
   titulo: string = '';
@@ -18,7 +17,7 @@ export class LouvorListComponent {
   louvorSelecionado: any = null;
   repertorioGerado: string = '';
 
-  constructor(private openaiService: OpenAIService) {}
+  constructor() { }
 
   filtrar() {
     const termoTitulo = this.titulo?.toLowerCase() || '';
@@ -38,34 +37,6 @@ export class LouvorListComponent {
     this.tema = '';
     this.subtema = '';
     this.louvoresFiltrados = [];
-  }
-
-  gerarRepertorio() {
-    this.openaiService
-      .generateRepertorioFake(this.tema, this.subtema)
-      .subscribe((resposta) => {
-        this.repertorioGerado = resposta;
-      });
-
-    // const partes: string[] = [];
-
-    // if (this.tema) {
-    //   partes.push(`Tema: ${this.tema}`);
-    // }
-    // if (this.subtema) {
-    //   partes.push(`Subtema: ${this.subtema}`);
-    // }
-
-    // const promptBase =
-    //   'Monte um repertório de louvores cristãos baseado nos seguintes critérios:';
-    // const prompt = partes.length
-    //   ? `${promptBase}\n${partes.join('\n')}`
-    //   : 'Monte um repertório cristão variado com foco em louvores contemporâneos.';
-
-    // this.openaiService.gerarRepertorio(prompt).subscribe((res: any) => {
-    //   const resposta = res.choices?.[0]?.message?.content || 'Nada retornado.';
-    //   this.repertorioGerado = resposta;
-    // });
   }
 
   limparSugestao() {

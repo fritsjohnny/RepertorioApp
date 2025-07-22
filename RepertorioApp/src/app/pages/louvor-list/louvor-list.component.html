@@ -1,4 +1,6 @@
 <div class="container">
+  <h3 class="text-center">Buscar Louvor</h3>
+
   <input
     type="text"
     placeholder="Nome da Canção (ex: Tremenda Graça)"
@@ -23,10 +25,6 @@
   <button (click)="filtrar()">Buscar</button>
   <button *ngIf="louvoresFiltrados.length" class="btn-clear" (click)="limpar()">
     Limpar Filtros
-  </button>
-
-  <button (click)="gerarRepertorio()" style="display: none">
-    🎶 Gerar Repertório com IA (baseado na busca)
   </button>
 
   <div *ngIf="repertorioGerado">

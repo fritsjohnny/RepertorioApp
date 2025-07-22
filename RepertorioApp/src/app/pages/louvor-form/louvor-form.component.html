@@ -1,0 +1,88 @@
+<div class="container">
+  <h3 class="text-center">
+    {{ isEditMode ? "Editar Louvor" : "Novo Louvor" }}
+  </h3>
+
+  <div class="form-group">
+    <div class="radio-group">
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="worshipType"
+          value="Celebração"
+          [(ngModel)]="worshipType"
+        />
+        Celebração
+      </label>
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="worshipType"
+          value="Adoração"
+          [(ngModel)]="worshipType"
+        />
+        Adoração
+      </label>
+    </div>
+  </div>
+
+  <input type="text" class="input" [(ngModel)]="title" placeholder="Título*" />
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="artist"
+    placeholder="Artista (opcional)"
+  />
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="tempo"
+    placeholder="BPM (opcional)"
+  />
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="key"
+    placeholder="Tom (opcional)"
+  />
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="theme"
+    placeholder="Tema (opcional)"
+  />
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="tags"
+    placeholder="Subtema (opcional)"
+  />
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="externaLink"
+    placeholder="Link do Vídeo/Áudio (opcional)"
+  />
+  <input
+    type="text"
+    class="input"
+    [(ngModel)]="bibleReferences"
+    placeholder="Referências Bíblica (opcional). Ex: Salmos 150"
+  />
+
+  <div class="form-group">
+    <textarea class="input" placeholder="Letra*" rows="6"></textarea>
+  </div>
+
+  <div class="form-group d-flex justify-content-center gap-2 mt-3">
+    <button class="btn-adicionar" (click)="salvar()">
+      {{ isEditMode ? "Salvar Alterações" : "Adicionar" }}
+    </button>
+
+    <button class="btn-clear" (click)="cancelar()">Cancelar</button>
+
+    <button *ngIf="isEditMode" class="btn-clear" (click)="excluir()">
+      Excluir
+    </button>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--card);
+  color: var(--text);
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+.container > *:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+input,
+textarea.input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: var(--bg);
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-clear {
+  width: 100%;
+  padding: 12px;
+  background-color: #cccccc;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #aaaaaa;
+  }
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-content: space-around;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--card);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.radio-option:hover {
+  background-color: var(--primary-dark);
+}
+
+.radio-option input[type="radio"] {
+  accent-color: var(--primary);
+  width: 1.3rem; // Largura da bolinha
+  height: 1.3rem; // Altura da bolinha
+}
