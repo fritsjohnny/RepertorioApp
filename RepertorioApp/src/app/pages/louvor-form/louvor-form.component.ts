@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SongService } from '../../services/song.service';
+import { Song } from '../../models/song.model';
+import { Messenger } from '../../common/messenger';
 
 @Component({
   selector: 'app-louvor-form',
@@ -16,19 +19,21 @@ export class LouvorFormComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
+  private songService = inject(SongService);
+  private messenger = inject(Messenger);
 
+  louvorId?: string | null;
   title: string = '';
-  artist: string = '';
-  key: string = '';
-  tempo: string = '';
-  theme: string = '';
-  lyrics: string = '';
-  tags: string = '';
-  externaLink = '';
-  bibleReferences: string = '';
-  worshipType: string = '';
+  artist?: string;
+  key?: string;
+  tempo?: string;
+  theme?: string;
+  lyrics?: string;
+  tags?: string;
+  externalLink?: string;
+  bibleReferences?: string;
+  worshipType?: string;
 
-  louvorId: string | null = null;
   isEditMode = false;
 
   ngOnInit(): void {
@@ -36,32 +41,66 @@ export class LouvorFormComponent implements OnInit {
     this.isEditMode = !!this.louvorId;
 
     if (this.isEditMode) {
-
+      this.songService.getById(+this.louvorId!).subscribe({
+        next: (louvor) => {
+          this.title = louvor.title;
+          this.artist = louvor.artist;
+          this.key = louvor.key;
+          this.tempo = louvor.tempo;
+          this.theme = louvor.theme;
+          this.lyrics = louvor.lyrics;
+          this.tags = louvor.tags;
+          this.externalLink = louvor.externalLink;
+          this.bibleReferences = louvor.bibleReferences;
+          this.worshipType = louvor.worshipType;
+        },
+        error: (err) => {
+          console.error('Erro ao carregar louvor para edição:', err);
+          this.messenger.errorHandler('Erro ao carregar louvor para edição.' + err);
+          this.router.navigate(['/buscar']);
+        }
+      });
     }
   }
 
   salvar() {
-    const novoLouvor = {
-      titulo: this.title,
-      artista: this.artist,
-      bpm: this.tempo,
-      tom: this.key,
-      tema: this.theme,
-      subtemas: this.tags,
-      letra: this.lyrics,
-      link: this.externaLink,
-      referenciasBiblicas: this.bibleReferences
+    const song: Song = {
+      id: this.louvorId ? +this.louvorId : 0,
+      title: this.title,
+      artist: this.artist,
+      key: this.key,
+      tempo: this.tempo,
+      theme: this.theme,
+      lyrics: this.lyrics,
+      tags: this.tags,
+      externalLink: this.externalLink,
+      bibleReferences: this.bibleReferences,
+      worshipType: this.worshipType
     };
 
     if (this.isEditMode) {
-      console.log('Atualizando:', this.louvorId, novoLouvor);
-      // this.louvorService.update(this.louvorId, novoLouvor).subscribe(...)
+      this.songService.update(+this.louvorId!, song).subscribe({
+        next: (song) => {
+          this.messenger.message('Louvor atualizado com sucesso!');
+          this.router.navigate(['/buscar'], { queryParams: { updated: 'true', songId: this.louvorId } });
+        },
+        error: (err) => {
+          console.error('Erro ao atualizar louvor:', err);
+          this.messenger.errorHandler('Erro ao atualizar louvor.\n' + this.messenger.extractMessage(err));
+        }
+      });
     } else {
-      console.log('Criando novo louvor:', novoLouvor);
-      // this.louvorService.create(novoLouvor).subscribe(...)
+      this.songService.create(song).subscribe({
+        next: () => {
+          this.messenger.message('Louvor criado com sucesso!');
+          this.router.navigate(['/buscar'])
+        },
+        error: (err) => {
+          console.error('Erro ao criar louvor:', err);
+          this.messenger.errorHandler('Erro ao criar louvor.\n' + this.messenger.extractMessage(err));
+        }
+      });
     }
-
-    this.router.navigate(['/buscar']);
   }
 
   excluir() {

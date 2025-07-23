@@ -36,28 +36,40 @@
     </button>
   </div>
 
-  <p *ngIf="louvoresFiltrados.length">
-    {{ louvoresFiltrados.length }} louvor{{
-      louvoresFiltrados.length === 1 ? "" : "es"
-    }}
-    encontrado{{ louvoresFiltrados.length === 1 ? "" : "s" }}
-  </p>
+  <div class="center">
+    <mat-spinner color="accent" *ngIf="!hideProgress"></mat-spinner>
+  </div>
 
-  <p *ngIf="!louvoresFiltrados.length">Nenhum louvor encontrado.</p>
+  <div *ngIf="hideProgress">
+    <p *ngIf="louvoresFiltrados.length">
+      {{ louvoresFiltrados.length }} louvor{{
+        louvoresFiltrados.length === 1 ? "" : "es"
+      }}
+      encontrado{{ louvoresFiltrados.length === 1 ? "" : "s" }}
+    </p>
 
-  <button *ngIf="louvoresFiltrados.length" (click)="compartilharTodos()">
-    Compartilhar todos os resultados no WhatsApp
-  </button>
+    <p *ngIf="!louvoresFiltrados.length">Nenhum louvor encontrado.</p>
 
-  <div
-    class="card"
-    *ngFor="let l of louvoresFiltrados"
-    (click)="abrirModalPorTitulo(l.titulo)"
-  >
-    <h3>{{ l.titulo }}</h3>
-    <p><strong>Tom:</strong> {{ l.tom }} | <strong>BPM:</strong> {{ l.bpm }}</p>
-    <p><strong>Tema:</strong> {{ l.tema }}</p>
-    <p><strong>Subtemas:</strong> {{ l.subtemas }}</p>
+    <button
+      class="share-btn"
+      *ngIf="louvoresFiltrados.length"
+      (click)="compartilharTodos()"
+    >
+      Compartilhar todos os resultados no WhatsApp
+    </button>
+
+    <div
+      class="card"
+      *ngFor="let l of louvoresFiltrados"
+      (click)="abrirModalPorTitulo(l)"
+    >
+      <h3>{{ l.title }}</h3>
+      <p>
+        <strong>Tom:</strong> {{ l.key }} | <strong>BPM:</strong> {{ l.tempo }}
+      </p>
+      <p><strong>Tema:</strong> {{ l.theme }}</p>
+      <p><strong>Subtemas:</strong> {{ l.tags }}</p>
+    </div>
   </div>
 </div>
 
@@ -65,13 +77,41 @@
 <div class="modal" *ngIf="louvorSelecionado" (click)="fecharModal($event)">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="fecharModal($event)">&times;</span>
-    <h2 style="word-break: break-word; white-space: normal">
-      {{ louvorSelecionado.titulo }}
+
+    <h2 style="word-break: break-word; white-space: normal; padding-top: 25px">
+      {{ louvorSelecionado.title }}
     </h2>
-    <p><strong>Tom:</strong> {{ louvorSelecionado.tom }}</p>
-    <p><strong>BPM:</strong> {{ louvorSelecionado.bpm }}</p>
-    <p><strong>Tema:</strong> {{ louvorSelecionado.tema }}</p>
-    <p><strong>Subtemas:</strong> {{ louvorSelecionado.subtemas }}</p>
+
+    <p><strong>Artista:</strong> {{ louvorSelecionado.artist || "—" }}</p>
+    <p><strong>Tom:</strong> {{ louvorSelecionado.key || "—" }}</p>
+    <p><strong>BPM:</strong> {{ louvorSelecionado.tempo || "—" }}</p>
+    <p>
+      <strong>Tipo de Louvor:</strong>
+      {{ louvorSelecionado.worshipType || "—" }}
+    </p>
+    <p><strong>Tema:</strong> {{ louvorSelecionado.theme || "—" }}</p>
+    <p><strong>Subtemas:</strong> {{ louvorSelecionado.tags || "—" }}</p>
+    <p>
+      <strong>Referências Bíblicas:</strong>
+      {{ louvorSelecionado.bibleReferences || "—" }}
+    </p>
+    <p><strong>Link:</strong> {{ louvorSelecionado.externalLink || "—" }}</p>
+
+    <ng-container *ngIf="louvorSelecionado.lyrics">
+      <hr />
+      <p><strong>Letra:</strong></p>
+      <pre style="white-space: pre-wrap">{{ louvorSelecionado.lyrics }}</pre>
+    </ng-container>
+
+    <div class="button-group">
+      <button class="edit-btn" (click)="editarLouvor(louvorSelecionado)">
+        ✏️ Editar
+      </button>
+      <button class="delete-btn" (click)="excluirLouvor(louvorSelecionado)">
+        🗑️ Excluir
+      </button>
+    </div>
+
     <button class="share-btn" (click)="compartilharWhatsApp(louvorSelecionado)">
       Compartilhar no WhatsApp
     </button>

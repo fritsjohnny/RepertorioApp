@@ -91,3 +91,9 @@ body {
     background-color: #1ebc57;
   }
 }
+
+.center {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

@@ -9,5 +9,6 @@ export const routes: Routes = [
   {
     path: 'gerar-repertorio', component: GerarRepertorioComponent, data: { reuse: true },
   },
-  { path: 'form', component: LouvorFormComponent, data: { reuse: true } },
+  { path: 'louvor-form', component: LouvorFormComponent, data: { reuse: true } },
+  { path: 'louvor-form/:id', component: LouvorFormComponent, }
 ];
